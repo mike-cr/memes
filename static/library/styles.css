@@ -1,0 +1,393 @@
+:root {
+  --bg: #f7f7f4;
+  --panel: #ffffff;
+  --ink: #232522;
+  --muted: #6b706a;
+  --line: #d9ddd5;
+  --accent: #146c64;
+  --accent-strong: #0d4f49;
+  --danger: #b42318;
+  --shadow: 0 10px 28px rgba(26, 31, 28, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 15px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+.topbar {
+  align-items: center;
+  background: #ffffff;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  height: 58px;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+.brand {
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.page {
+  margin: 0 auto;
+  max-width: 1420px;
+  padding: 24px;
+}
+
+.workspace {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 340px 1fr;
+}
+
+.upload-panel,
+.library-panel,
+.auth-panel,
+.edit-layout {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.upload-panel {
+  align-self: start;
+  padding: 20px;
+  position: sticky;
+  top: 82px;
+}
+
+.library-panel {
+  min-width: 0;
+  padding: 18px;
+}
+
+h1 {
+  font-size: 22px;
+  line-height: 1.15;
+  margin: 0 0 18px;
+}
+
+h2 {
+  font-size: 14px;
+  line-height: 1.25;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.form-stack {
+  display: grid;
+  gap: 14px;
+}
+
+label,
+.tag-field > label {
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+input[type="text"],
+input[type="url"],
+input[type="password"],
+input[type="search"],
+input[type="file"],
+.tag-field [data-tag-input] {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  min-height: 40px;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+input:focus {
+  border-color: var(--accent);
+  outline: 2px solid rgba(20, 108, 100, 0.18);
+}
+
+.button,
+button {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+  cursor: pointer;
+  min-height: 36px;
+  padding: 7px 11px;
+  text-decoration: none;
+}
+
+.button.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+.button.primary:hover {
+  background: var(--accent-strong);
+}
+
+.button.ghost {
+  background: transparent;
+}
+
+.search-row {
+  align-items: center;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: minmax(180px, 1fr) auto;
+  margin-bottom: 18px;
+}
+
+.search-row span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.meme-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.meme-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.thumb-button {
+  aspect-ratio: 1 / 1;
+  background: #ecefe9;
+  border: 0;
+  border-radius: 0;
+  display: block;
+  min-height: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.thumb-button img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+.meme-meta {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+}
+
+.tag-list,
+.tag-chips,
+.tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag-list span,
+.tag-chips button,
+.tag-cloud button {
+  background: #eaf2ef;
+  border: 1px solid #cfe2dc;
+  border-radius: 999px;
+  color: #23413d;
+  font-size: 12px;
+  min-height: 26px;
+  padding: 3px 8px;
+}
+
+.tag-cloud {
+  border-top: 1px solid var(--line);
+  margin-top: 18px;
+  padding-top: 16px;
+}
+
+.card-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.card-actions a,
+.card-actions button {
+  background: transparent;
+  border: 0;
+  color: var(--accent);
+  min-height: 0;
+  padding: 0;
+}
+
+.card-actions form {
+  margin: 0;
+}
+
+.card-actions form button {
+  color: var(--danger);
+}
+
+.tag-field {
+  display: grid;
+  gap: 8px;
+  position: relative;
+}
+
+.suggestions {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  display: none;
+  left: 0;
+  max-height: 190px;
+  overflow: auto;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 10;
+}
+
+.suggestions button {
+  background: #fff;
+  border: 0;
+  border-radius: 0;
+  display: block;
+  text-align: left;
+  width: 100%;
+}
+
+.suggestions button:hover {
+  background: #f1f4ef;
+}
+
+.messages {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.message {
+  background: #eef6f0;
+  border: 1px solid #cfe6d5;
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.message.error {
+  background: #fff0ef;
+  border-color: #ffd0cc;
+}
+
+.auth-panel {
+  margin: 60px auto;
+  max-width: 380px;
+  padding: 24px;
+}
+
+.edit-layout {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: minmax(220px, 380px) minmax(280px, 1fr);
+  padding: 20px;
+}
+
+.edit-preview {
+  background: #ecefe9;
+  border-radius: 8px;
+  display: block;
+  width: 100%;
+}
+
+.action-row {
+  display: flex;
+  gap: 10px;
+}
+
+.empty-state {
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  padding: 32px;
+  text-align: center;
+}
+
+.image-modal {
+  background: #111;
+  border: 0;
+  border-radius: 8px;
+  max-height: 92vh;
+  max-width: 92vw;
+  padding: 0;
+}
+
+.image-modal::backdrop {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.image-modal img {
+  display: block;
+  max-height: calc(92vh - 52px);
+  max-width: 92vw;
+}
+
+.modal-toolbar {
+  align-items: center;
+  background: #fff;
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+.icon-button {
+  font-weight: 800;
+  width: 36px;
+}
+
+@media (max-width: 860px) {
+  .page {
+    padding: 14px;
+  }
+
+  .workspace,
+  .edit-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .upload-panel {
+    position: static;
+  }
+}

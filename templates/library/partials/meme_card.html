@@ -1,0 +1,28 @@
+<article class="meme-card">
+  <button
+    class="thumb-button"
+    type="button"
+    data-open-image="{{ request.scheme }}://{{ request.get_host }}{{ meme.public_url }}"
+    data-download-url="{% url 'library:download' meme.pk %}"
+    data-title="{{ meme.display_title }}"
+  >
+    <img src="{% url 'library:thumbnail' meme.pk %}" alt="{{ meme.display_title }}">
+  </button>
+  <div class="meme-meta">
+    <h2>{{ meme.display_title }}</h2>
+    <div class="tag-list">
+      {% for tag in meme.tags.all %}
+        <span>{{ tag.name }}</span>
+      {% endfor %}
+    </div>
+    <div class="card-actions">
+      <a href="{% url 'library:edit' meme.pk %}">Edit</a>
+      <a href="{% url 'library:download' meme.pk %}">Download</a>
+      <button type="button" data-copy-link="{{ request.scheme }}://{{ request.get_host }}{{ meme.public_url }}">Copy link</button>
+      <form method="post" action="{% url 'library:delete' meme.pk %}">
+        {% csrf_token %}
+        <button type="submit" data-confirm="Delete this meme?">Delete</button>
+      </form>
+    </div>
+  </div>
+</article>

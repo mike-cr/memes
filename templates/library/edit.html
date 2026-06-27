@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Edit meme - MemeVault{% endblock %}
+
+{% block content %}
+  <section class="edit-layout">
+    <div>
+      <img class="edit-preview" src="{% url 'library:thumbnail' meme.pk %}" alt="">
+    </div>
+    <form method="post" class="form-stack" data-tag-form>
+      {% csrf_token %}
+      <h1>Edit meme</h1>
+      <label>
+        Title
+        <input type="text" name="title" value="{{ meme.title }}" maxlength="160" autocomplete="off">
+      </label>
+      <div class="tag-field" data-tag-widget data-initial-tags="{{ form.tags.value|default:'' }}">
+        <label for="edit-tags">Tags</label>
+        <div class="tag-chips" data-tag-chips></div>
+        <input id="edit-tags" type="text" data-tag-input autocomplete="off">
+        <input type="hidden" name="tags" data-tag-value value="{{ form.tags.value|default:'' }}">
+        <div class="suggestions" data-tag-suggestions></div>
+      </div>
+      <div class="action-row">
+        <button class="button primary" type="submit">Save</button>
+        <a class="button" href="{% url 'library:index' %}">Cancel</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

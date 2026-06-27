@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}MemeVault{% endblock %}
+
+{% block content %}
+  <section class="workspace">
+    <aside class="upload-panel">
+      <h1>Add meme</h1>
+      <form method="post" action="{% url 'library:create' %}" enctype="multipart/form-data" class="form-stack" data-tag-form>
+        {% csrf_token %}
+        <label>
+          Title
+          <input type="text" name="title" maxlength="160" autocomplete="off">
+        </label>
+        <label>
+          Upload image
+          <input type="file" name="image" accept="image/png,image/jpeg,image/gif,image/webp">
+        </label>
+        <label>
+          Image URL
+          <input type="url" name="image_url" placeholder="https://example.com/image.png">
+        </label>
+        <div class="tag-field" data-tag-widget>
+          <label for="new-tags">Tags</label>
+          <div class="tag-chips" data-tag-chips></div>
+          <input id="new-tags" type="text" data-tag-input autocomplete="off">
+          <input type="hidden" name="tags" data-tag-value>
+          <div class="suggestions" data-tag-suggestions></div>
+        </div>
+        <button class="button primary" type="submit">Add</button>
+      </form>
+
+      {% if popular_tags %}
+        <div class="tag-cloud">
+          {% for tag in popular_tags %}
+            <button type="button" data-search-token="{{ tag.name }}">{{ tag.name }}</button>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </aside>
+
+    <section class="library-panel">
+      <div class="search-row">
+        <input type="search" value="{{ query }}" placeholder="Search title, filename, or tag" data-meme-search autofocus>
+        <span data-result-count>{{ memes|length }} shown</span>
+      </div>
+      <div class="meme-grid" data-meme-grid>
+        {% for meme in memes %}
+          {% include "library/partials/meme_card.html" with meme=meme %}
+        {% empty %}
+          <div class="empty-state">No memes yet.</div>
+        {% endfor %}
+      </div>
+    </section>
+  </section>
+{% endblock %}
