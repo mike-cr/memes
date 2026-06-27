@@ -187,6 +187,7 @@ button {
 }
 
 .meme-grid {
+  align-items: stretch;
   display: grid;
   gap: 16px;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
@@ -206,7 +207,8 @@ button {
   border: 1px solid var(--line);
   border-radius: 8px;
   contain: layout paint;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   justify-self: stretch;
   max-width: 100%;
   min-width: 0;
@@ -240,23 +242,29 @@ button {
   min-height: 0;
   overflow: hidden;
   padding: 0;
+  position: relative;
   width: 100%;
 }
 
 .thumb-button img {
   display: block;
+  inset: 0;
   height: 100%;
   max-width: 100%;
   object-fit: cover;
+  overflow: hidden;
+  position: absolute;
   width: 100%;
 }
 
 .meme-meta {
-  display: grid;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
   gap: 9px;
   max-width: 100%;
+  min-height: max-content;
   min-width: 0;
-  overflow: hidden;
   padding: 12px;
   width: 100%;
 }
@@ -314,6 +322,7 @@ button {
   display: grid;
   gap: 6px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin-top: auto;
   max-width: 100%;
   min-width: 0;
   padding-top: 10px;
