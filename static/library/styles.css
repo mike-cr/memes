@@ -214,6 +214,7 @@ button {
 .meme-meta {
   display: grid;
   gap: 9px;
+  min-width: 0;
   padding: 12px;
 }
 
@@ -270,7 +271,11 @@ button {
   display: grid;
   gap: 8px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
   padding-top: 10px;
+  width: 100%;
 }
 
 .card-action {
@@ -284,6 +289,8 @@ button {
   justify-content: center;
   min-height: 34px;
   min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
   padding: 0;
   text-decoration: none;
   width: 100%;
@@ -323,8 +330,16 @@ button {
 }
 
 .card-actions form {
+  display: block;
   margin: 0;
+  max-width: 100%;
   min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.card-actions form .card-action {
+  display: flex;
 }
 
 .tag-field {
