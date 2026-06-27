@@ -16,12 +16,20 @@
       {% endfor %}
     </div>
     <div class="card-actions">
-      <a href="{% url 'library:edit' meme.pk %}">Edit</a>
-      <a href="{% url 'library:download' meme.pk %}">Download</a>
-      <button type="button" data-copy-link="{{ request.scheme }}://{{ request.get_host }}{{ meme.public_url }}">Copy link</button>
+      <a class="card-action" href="{% url 'library:edit' meme.pk %}" aria-label="Edit {{ meme.display_title }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l11-11-4-4L4 16v4zM14 6l4 4"/></svg>
+      </a>
+      <a class="card-action" href="{% url 'library:download' meme.pk %}" aria-label="Download {{ meme.display_title }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 21h14"/></svg>
+      </a>
+      <button class="card-action" type="button" data-copy-link="{{ request.scheme }}://{{ request.get_host }}{{ meme.public_url }}" aria-label="Copy share link for {{ meme.display_title }}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg>
+      </button>
       <form method="post" action="{% url 'library:delete' meme.pk %}">
         {% csrf_token %}
-        <button type="submit" data-confirm="Delete this meme?">Delete</button>
+        <button class="card-action danger" type="submit" data-confirm="Delete this meme?" aria-label="Delete {{ meme.display_title }}">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 14h10l1-14M9 7V4h6v3"/></svg>
+        </button>
       </form>
     </div>
   </div>

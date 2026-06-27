@@ -173,16 +173,24 @@ button {
 
 .meme-grid {
   display: grid;
-  gap: 14px;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
 }
 
 .meme-card {
+  background: #fff;
   border: 1px solid var(--line);
   border-radius: 8px;
   display: grid;
   min-width: 0;
   overflow: hidden;
+  transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+.meme-card:hover {
+  border-color: #bdc7bf;
+  box-shadow: 0 8px 20px rgba(26, 31, 28, 0.1);
+  transform: translateY(-1px);
 }
 
 .thumb-button {
@@ -205,7 +213,7 @@ button {
 
 .meme-meta {
   display: grid;
-  gap: 10px;
+  gap: 9px;
   padding: 12px;
 }
 
@@ -217,7 +225,6 @@ button {
   gap: 6px;
 }
 
-.tag-list span,
 .tag-chips button,
 .tag-cloud button {
   background: #eaf2ef;
@@ -229,6 +236,28 @@ button {
   padding: 3px 8px;
 }
 
+.tag-list {
+  min-height: 20px;
+}
+
+.tag-list span {
+  align-items: center;
+  background: #edf4f1;
+  border: 1px solid #d3e2dc;
+  border-radius: 999px;
+  color: #23413d;
+  display: inline-flex;
+  font-size: 11px;
+  font-weight: 650;
+  height: 20px;
+  line-height: 1;
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0 7px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .tag-cloud {
   border-top: 1px solid var(--line);
   margin-top: 18px;
@@ -237,26 +266,65 @@ button {
 
 .card-actions {
   align-items: center;
-  display: flex;
-  flex-wrap: wrap;
+  border-top: 1px solid #edf0ea;
+  display: grid;
   gap: 8px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding-top: 10px;
 }
 
-.card-actions a,
-.card-actions button {
-  background: transparent;
-  border: 0;
-  color: var(--accent);
-  min-height: 0;
+.card-action {
+  align-items: center;
+  background: #f8faf7;
+  border: 1px solid #dfe4dc;
+  border-radius: 6px;
+  color: #34423e;
+  display: inline-flex;
+  height: 34px;
+  justify-content: center;
+  min-height: 34px;
+  min-width: 0;
   padding: 0;
+  text-decoration: none;
+  width: 100%;
+}
+
+.card-action:hover {
+  background: #eef5f2;
+  border-color: #cbdcd5;
+  color: var(--accent-strong);
+}
+
+.card-action svg {
+  fill: none;
+  flex: 0 0 17px;
+  height: 17px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  width: 17px;
+}
+
+.card-action.copied {
+  background: #eaf2ef;
+  border-color: #b9d5cc;
+  color: var(--accent-strong);
+}
+
+.card-action.danger {
+  color: var(--danger);
+}
+
+.card-action.danger:hover {
+  background: #fff2f1;
+  border-color: #f0c5c0;
+  color: #8f1b12;
 }
 
 .card-actions form {
   margin: 0;
-}
-
-.card-actions form button {
-  color: var(--danger);
+  min-width: 0;
 }
 
 .tag-field {
@@ -344,6 +412,18 @@ button {
   text-align: center;
 }
 
+.load-sentinel {
+  color: var(--muted);
+  font-size: 13px;
+  min-height: 44px;
+  padding: 18px 0 4px;
+  text-align: center;
+}
+
+.load-sentinel[hidden] {
+  display: none;
+}
+
 .image-modal {
   background: #111;
   border: 0;
@@ -389,5 +469,9 @@ button {
 
   .upload-panel {
     position: static;
+  }
+
+  .card-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

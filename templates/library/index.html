@@ -40,9 +40,16 @@
     </aside>
 
     <section class="library-panel">
-      <div class="search-row">
-        <input type="search" value="{{ query }}" placeholder="Search title, filename, or tag" data-meme-search autofocus>
-        <span data-result-count>{{ memes|length }} shown</span>
+      <div
+        class="search-row"
+        data-library-state
+        data-next-page="{{ next_page }}"
+        data-has-next="{{ has_next_page|yesno:'true,false' }}"
+        data-total="{{ total_count }}"
+        data-page-size="{{ page_size }}"
+      >
+        <input type="search" value="{{ query }}" placeholder="Search title or tag" data-meme-search autofocus>
+        <span data-result-count>{{ memes|length }} of {{ total_count }} shown</span>
       </div>
       <div class="meme-grid" data-meme-grid>
         {% for meme in memes %}
@@ -50,6 +57,9 @@
         {% empty %}
           <div class="empty-state">No memes yet.</div>
         {% endfor %}
+      </div>
+      <div class="load-sentinel" data-load-sentinel>
+        {% if has_next_page %}Loading more...{% endif %}
       </div>
     </section>
   </section>

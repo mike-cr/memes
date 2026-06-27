@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.db import transaction
 from django.db.models import Count, Q
 from django.http import FileResponse, Http404, JsonResponse
@@ -19,6 +20,8 @@ from .services import (
     read_limited_upload,
     strip_image_metadata,
 )
+
+MEME_PAGE_SIZE = 36
 
 
 def normalize_tags(raw_tags):
@@ -49,14 +52,18 @@ def set_tags(meme, raw_tags):
 @login_required
 def index(request):
     query = request.GET.get('q', '').strip()
-    memes = search_memes(query)[:60]
+    paginator, page = paginate_memes(search_memes(query), 1)
     popular_tags = Tag.objects.annotate(meme_count=Count('memes')).filter(meme_count__gt=0)[:30]
     return render(
         request,
         'library/index.html',
         {
             'form': MemeCreateForm(),
-            'memes': memes,
+            'memes': page.object_list,
+            'has_next_page': page.has_next(),
+            'next_page': page.next_page_number() if page.has_next() else '',
+            'total_count': paginator.count,
+            'page_size': MEME_PAGE_SIZE,
             'query': query,
             'popular_tags': popular_tags,
         },
@@ -192,10 +199,16 @@ def tag_search_api(request):
 @login_required
 def meme_search_api(request):
     query = request.GET.get('q', '').strip()
-    memes = search_memes(query)[:60]
+    page_number = request.GET.get('page', 1)
+    paginator, page = paginate_memes(search_memes(query), page_number)
     return JsonResponse(
         {
-            'memes': [serialize_meme(request, meme) for meme in memes],
+            'memes': [serialize_meme(request, meme) for meme in page.object_list],
+            'page': page.number,
+            'pageSize': MEME_PAGE_SIZE,
+            'total': paginator.count,
+            'hasNext': page.has_next(),
+            'nextPage': page.next_page_number() if page.has_next() else None,
         }
     )
 
@@ -210,6 +223,17 @@ def search_memes(query):
                 | Q(tags__name__icontains=term)
             )
     return memes.distinct()
+
+
+def paginate_memes(memes, page_number):
+    paginator = Paginator(memes, MEME_PAGE_SIZE)
+    try:
+        page = paginator.page(page_number)
+    except PageNotAnInteger:
+        page = paginator.page(1)
+    except EmptyPage:
+        page = paginator.page(paginator.num_pages)
+    return paginator, page
 
 
 def serialize_meme(request, meme):

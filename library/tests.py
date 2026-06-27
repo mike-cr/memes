@@ -11,6 +11,7 @@ from PIL import Image
 
 from .models import Meme, Tag
 from .services import ImageImportError, validate_public_url
+from .views import MEME_PAGE_SIZE
 
 
 def image_bytes(fmt='PNG', size=(16, 16), color=(20, 108, 100)):
@@ -87,7 +88,7 @@ class MemeLibraryTests(TestCase):
         self.client.post(reverse('library:create'), {'title': 'Same Name', 'image': second})
 
         urls = sorted(meme.public_url() for meme in Meme.objects.all())
-        self.assertEqual([url.rsplit('/', 1)[1] for url in urls], ['same-name-2.png', 'same-name.png'])
+        self.assertCountEqual([url.rsplit('/', 1)[1] for url in urls], ['same-name-2.png', 'same-name.png'])
         for meme in Meme.objects.all():
             self.assertRegex(meme.public_url(), r'^/i/[0-9a-f]{8}/same-name(-2)?\.png$')
             self.assertNotIn(str(meme.public_id), meme.public_url())
@@ -149,6 +150,22 @@ class MemeLibraryTests(TestCase):
         response = self.client.get(reverse('library:meme_search_api'), {'q': 'surprised'})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()['memes']), 1)
+
+    def test_meme_search_api_is_paginated(self):
+        self.login()
+        for index in range(MEME_PAGE_SIZE + 3):
+            Meme.objects.create(title=f'Paged meme {index}')
+
+        first = self.client.get(reverse('library:meme_search_api'), {'page': 1})
+        second = self.client.get(reverse('library:meme_search_api'), {'page': 2})
+
+        self.assertEqual(first.status_code, 200)
+        self.assertEqual(len(first.json()['memes']), MEME_PAGE_SIZE)
+        self.assertEqual(first.json()['total'], MEME_PAGE_SIZE + 3)
+        self.assertTrue(first.json()['hasNext'])
+        self.assertEqual(first.json()['nextPage'], 2)
+        self.assertEqual(len(second.json()['memes']), 3)
+        self.assertFalse(second.json()['hasNext'])
 
     @patch('library.services.socket.getaddrinfo')
     def test_url_import_rejects_private_networks(self, getaddrinfo):
