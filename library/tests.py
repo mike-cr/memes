@@ -128,6 +128,38 @@ class MemeLibraryTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json()['tags'][0]['name'], 'reaction')
 
+    def test_editing_existing_meme_tags_updates_tags(self):
+        self.login()
+        upload = SimpleUploadedFile('edit-tags.png', image_bytes(), content_type='image/png')
+        self.client.post(
+            reverse('library:create'),
+            {'title': 'Editable', 'image': upload, 'tags': 'old'},
+        )
+        meme = Meme.objects.get()
+
+        response = self.client.post(
+            reverse('library:edit', kwargs={'pk': meme.pk}),
+            {'title': 'Editable', 'tags': 'new, reaction'},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        meme.refresh_from_db()
+        self.assertEqual(sorted(meme.tags.values_list('name', flat=True)), ['new', 'reaction'])
+
+    def test_editing_legacy_meme_with_blank_public_token_repairs_it(self):
+        self.login()
+        meme = Meme.objects.create(title='Legacy')
+        Meme.objects.filter(pk=meme.pk).update(public_token='')
+
+        response = self.client.post(
+            reverse('library:edit', kwargs={'pk': meme.pk}),
+            {'title': 'Legacy', 'tags': 'fixed'},
+        )
+
+        self.assertEqual(response.status_code, 302)
+        meme.refresh_from_db()
+        self.assertRegex(meme.public_url(), r'^/i/[0-9a-f]{8}/legacy\.img$')
+
     def test_public_image_is_available_without_login_but_index_is_not(self):
         self.login()
         upload = SimpleUploadedFile('share.png', image_bytes(), content_type='image/png')

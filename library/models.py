@@ -87,10 +87,16 @@ class Meme(models.Model):
         return f'{self.public_slug or "meme"}{suffix}'
 
     def save(self, *args, **kwargs):
+        generated_fields = set()
         if not self.public_slug:
             self.public_slug = self.make_unique_public_slug(self.title)
+            generated_fields.add('public_slug')
         if not self.public_token:
             self.public_token = self.make_unique_public_token()
+            generated_fields.add('public_token')
+        update_fields = kwargs.get('update_fields')
+        if update_fields is not None and generated_fields:
+            kwargs['update_fields'] = set(update_fields) | generated_fields
         super().save(*args, **kwargs)
 
     @classmethod
