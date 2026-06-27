@@ -269,11 +269,12 @@ button {
   align-items: center;
   border-top: 1px solid #edf0ea;
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 6px;
-  justify-content: flex-end;
+  justify-content: flex-start;
   max-width: 100%;
   min-width: 0;
+  overflow: hidden;
   padding-top: 10px;
   width: 100%;
 }
@@ -285,16 +286,16 @@ button {
   border-radius: 6px;
   color: #34423e;
   display: inline-flex;
-  flex: 0 0 34px;
+  flex: 1 1 0;
   height: 34px;
   justify-content: center;
   min-height: 34px;
   min-width: 0;
-  max-width: 100%;
+  max-width: none;
   overflow: hidden;
   padding: 0;
   text-decoration: none;
-  width: 34px;
+  width: 100%;
 }
 
 .card-action:hover {
@@ -332,15 +333,17 @@ button {
 
 .card-actions form {
   display: flex;
-  flex: 0 0 34px;
+  flex: 1 1 0;
   margin: 0;
-  max-width: 100%;
+  max-width: none;
   min-width: 0;
-  width: 34px;
+  width: auto;
 }
 
 .card-actions form .card-action {
   display: flex;
+  flex: 1 1 0;
+  width: 100%;
 }
 
 .tag-field {
@@ -488,6 +491,6 @@ button {
   }
 
   .card-actions {
-    justify-content: flex-start;
+    gap: 5px;
   }
 }
