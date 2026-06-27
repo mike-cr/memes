@@ -174,7 +174,9 @@ button {
 .meme-grid {
   display: grid;
   gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(210px, 100%), 1fr));
+  min-width: 0;
+  width: 100%;
 }
 
 .meme-card {
@@ -182,9 +184,17 @@ button {
   border: 1px solid var(--line);
   border-radius: 8px;
   display: grid;
+  justify-self: stretch;
+  max-width: 100%;
   min-width: 0;
   overflow: hidden;
   transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  width: 100%;
+}
+
+.meme-card > * {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .meme-card:hover {
@@ -214,8 +224,11 @@ button {
 .meme-meta {
   display: grid;
   gap: 9px;
+  max-width: 100%;
   min-width: 0;
+  overflow: hidden;
   padding: 12px;
+  width: 100%;
 }
 
 .tag-list,
@@ -268,13 +281,11 @@ button {
 .card-actions {
   align-items: center;
   border-top: 1px solid #edf0ea;
-  display: flex;
-  flex-wrap: nowrap;
+  display: grid;
   gap: 6px;
-  justify-content: flex-start;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   max-width: 100%;
   min-width: 0;
-  overflow: hidden;
   padding-top: 10px;
   width: 100%;
 }
@@ -286,12 +297,11 @@ button {
   border-radius: 6px;
   color: #34423e;
   display: inline-flex;
-  flex: 1 1 0;
   height: 34px;
   justify-content: center;
   min-height: 34px;
   min-width: 0;
-  max-width: none;
+  max-width: 100%;
   overflow: hidden;
   padding: 0;
   text-decoration: none;
@@ -332,17 +342,12 @@ button {
 }
 
 .card-actions form {
-  display: flex;
-  flex: 1 1 0;
+  display: contents;
   margin: 0;
-  max-width: none;
-  min-width: 0;
-  width: auto;
 }
 
 .card-actions form .card-action {
   display: flex;
-  flex: 1 1 0;
   width: 100%;
 }
 
