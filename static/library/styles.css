@@ -133,11 +133,14 @@ input:focus {
 
 .button,
 button {
+  align-items: center;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #fff;
   color: var(--ink);
   cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
   min-height: 36px;
   padding: 7px 11px;
   text-decoration: none;
@@ -156,6 +159,18 @@ button {
 
 .button.ghost {
   background: transparent;
+}
+
+.button.secondary {
+  background: #f8faf7;
+  border-color: #dfe4dc;
+  color: #34423e;
+  font-weight: 700;
+}
+
+.button.secondary:hover {
+  background: #eef5f2;
+  border-color: #cbdcd5;
 }
 
 .search-row {
@@ -441,6 +456,20 @@ button {
 .action-row {
   display: flex;
   gap: 10px;
+}
+
+.edit-actions {
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 10px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  margin-top: 4px;
+  padding-top: 16px;
+}
+
+.edit-actions .button {
+  min-height: 42px;
+  width: 100%;
 }
 
 .empty-state {

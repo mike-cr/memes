@@ -21,9 +21,9 @@
         <input type="hidden" name="tags" data-tag-value value="{{ form.tags.value|default:'' }}">
         <div class="suggestions" data-tag-suggestions></div>
       </div>
-      <div class="action-row">
+      <div class="action-row edit-actions">
         <button class="button primary" type="submit">Save</button>
-        <a class="button" href="{% url 'library:index' %}">Cancel</a>
+        <a class="button secondary" href="{% url 'library:index' %}">Cancel</a>
       </div>
     </form>
   </section>
